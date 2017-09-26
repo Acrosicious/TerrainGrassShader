@@ -1,0 +1,51 @@
+Instructions on how to use the terrain grass shader:
+
+------------------------
+
+Setup:
+1. Make sure rendering path is set to Deferred and color space is linear.
+2. Create a terrain object and add at least one texture.
+3. Go the terrain settings -> Choose the "Custom" option under "Material" and add the "Grass Shader Deferred" Material in the "Custom Material" slot.
+
+------------------------
+
+Configuration:
+To configure the shader, select the "Grass Shader Deferred" material found in "Terrain Shader/Shader".
+The four foldout menus "Options for Terrain texture X" are used to configure the grass for the first four terrain textures of the terrain object.
+Select the texture of the grass you want to draw.
+Configure the height, width and the dry/healthy colors to your content.
+Finally the "Enabled" checkbox activates this grass.
+The grass is now rendered on the terrain depending on the strength of the corresponding terrain texture.
+
+- Noise Texture: Specify a noise texture for varying height and color.
+- Smoothness: Increase reflectivity of the grass (0 is recommended).
+- UpDown: Move grass into the ground in the case that bottom of texture and the ground do not meet up.
+- Grass Density: Change the amount of grass rendered.
+- 3 Sprites: Enables highest LOD with 3 interlacing sprites
+- 1 Sprite: Enables lowest LOD with 1 Sprite (else 2 Sprites are used; better for an elevated view).
+- Enable wind: Enable waving movement of the grass.
+- Wind Direction: 0-360° denotes direction of wind movement.
+- Max Distance: Maximum drawing distance of grass.
+- LOD2 Distance: Distance where to switch to second LOD.
+- Transition Size: Size of the transition area between the LODs (larger values cost more performance but smoothen the transition).
+- Cast Shadows: Enables grass to cast shadows (Very high overhead).
+- Shadow Thickness: Makes cast shadows more distinctive.
+- Shadow LOD Distance: Distance up to which the grass casts shadows.
+- HDR On: Enable this when using HDR.
+
+------------------------
+
+You can add the "Terrain Shader/Shader/GrassCollider.cs" script to the player character model (or any other object) to make the grass bend in a circle around it.
+When the script is added to the model, "Radius" specifies the maximum radius where grass is bent.
+The "Material" slot of the script needs to be filled with the "Grass Shader Deferred" material.
+
+------------------------
+
+Performance Hints:
+If more performance is needed you can try to do the following adjustments:
+- Reduce any LOD distances
+- Disable Shadow Casting
+- Reduce density
+- Change lowest LOD to 1 Sprite
+
+
