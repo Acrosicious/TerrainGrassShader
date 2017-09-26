@@ -8,7 +8,7 @@ It was created in the course of a Bachelor's thesis at the [HCI research group](
 
 Grass is generated on the GPU in real-time and distributed depending on the ID of the ground textures. Painting terrain textures immediately updates the grass for direct visual feedback. The shader utilizes the "Deferred Rendering" path support cheap lighting and shadows. It also supports up to 10 sperical colliders (e.g. for the player character to bend the grass where he walks).
 
-
+[![IMAGE ALT TEXT](http://img.youtube.com/vi/z8AAFsAebZ4/0.jpg)](http://www.youtube.com/watch?v=z8AAFsAebZ4 "Demo")
 
 ### Installation
 
