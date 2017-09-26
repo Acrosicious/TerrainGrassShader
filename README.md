@@ -2,7 +2,7 @@
 ![Image](https://i.imgur.com/a77OdRi.png)
 
 This package includes a Unity terrain shader that generates grass on different textures in Real-time. (Tested with 5.6)
-It was created in the course of a Bachelor's thesis at the [HCI research group](https://www.inf.uni-hamburg.de/en/inst/ab/hci/research.html) at the [Hamburg University](https://www.uni-hamburg.de/).
+It was created in the course of a Bachelor's thesis at the [HCI research group](https://www.inf.uni-hamburg.de/en/inst/ab/hci/research.html) at the [Hamburg University](https://www.uni-hamburg.de/). [References](http://htmlpreview.github.io/?https://raw.githubusercontent.com/Acrosicious/TerrainGrassShader/master/references.html)
 
 ## Main Feature
 
