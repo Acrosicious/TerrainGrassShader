@@ -32,7 +32,11 @@ HS_CONSTANT_OUTPUT constant_hull_shader(InputPatch<VS_OUTPUT, 3> patch){
 	float maxTess = 1.0f;
 	half dens = 0.0;
 
-	// float cameraDistance = distance(patch[0].position, _WorldSpaceCameraPos);
+	// Distance to Camera
+	float cameraDistance = distance(patch[0].position, _WorldSpaceCameraPos);
+	cameraDistance = min(distance(patch[1].position, _WorldSpaceCameraPos), cameraDistance);
+	cameraDistance = min(distance(patch[2].position, _WorldSpaceCameraPos), cameraDistance);
+
 	// float4 tt = UnityEdgeLengthBasedTessCull(patch[0].position, patch[1].position, patch[2].position, 2.0, 2.0);
 
 	// OUT.EdgeFactors[0] = tt.x;
@@ -51,10 +55,6 @@ HS_CONSTANT_OUTPUT constant_hull_shader(InputPatch<VS_OUTPUT, 3> patch){
 			OUT.InsideFactor = 0.0f;
 			return OUT;
 		#endif
-		// Distance to Camera
-		float cameraDistance = distance(patch[0].position, _WorldSpaceCameraPos);
-		cameraDistance = min(distance(patch[1].position, _WorldSpaceCameraPos), cameraDistance);
-		cameraDistance = min(distance(patch[2].position, _WorldSpaceCameraPos), cameraDistance);
 		if(cameraDistance / 2.0 > _ShadowBillboardDistance){
 			b = true;
 		}
@@ -94,10 +94,14 @@ HS_CONSTANT_OUTPUT constant_hull_shader(InputPatch<VS_OUTPUT, 3> patch){
 		OUT.EdgeFactors[2] = 0.0f;
 		maxTess = 0.0f;
 	}
+	else
+	{
+		// Ease out tessellation after max grass distance
+		if(cameraDistance < _MaxCameraDistance)
+			OUT.InsideFactor = maxTess;
+	}
 
 	// float tess = _Tess;
-
-	OUT.InsideFactor = maxTess;
 
 	return OUT;
 }
@@ -130,6 +134,9 @@ DS_OUTPUT domain_shader(HS_CONSTANT_OUTPUT IN, float3 uvw : SV_DomainLocation, c
 	// }
 
 	float3 vertexPosition = patch[0].position.xyz * uvw.x + patch[1].position.xyz * uvw.y + patch[2].position.xyz * uvw.z;
+
+	// Offset grass patches based on terrain's pivot position
+	vertexPosition -= unity_ObjectToWorld._m03_m13_m23;
 
 	OUT.position = float4(vertexPosition, 1.0f); //mul(float4(vertexPosition, 1.0f), _World2Object);
 	// OUT.tc_Control = patch[0].tc_Control * uvw.x + patch[1].tc_Control * uvw.y + patch[2].tc_Control * uvw.z;
