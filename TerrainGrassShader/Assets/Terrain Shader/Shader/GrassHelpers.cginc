@@ -271,6 +271,10 @@ GrassBillboard generateGrassBillboardVertices(float4 position, float density, fl
 
 	// Collision - add bending by proximity to collider
 	float4 botCenter = (vertices[0] + vertices[1]) / 2.0f; // Bottom center of grass
+
+	// Offset vertices based on terrain's pivot position
+	botCenter += float4(unity_ObjectToWorld._m03_m13_m23, 0);
+
 	float colDist = distance(botCenter, _colPos); // distance to collider
 	float3 tempN = normalize(vertices[2] - vertices[0]); // FERNANDO
 

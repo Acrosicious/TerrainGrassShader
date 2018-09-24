@@ -6,7 +6,8 @@ void geometry_shader(triangle DS_OUTPUT IN[3], inout TriangleStream<GS_OUTPUT> t
 {
 	GS_OUTPUT OUT = (GS_OUTPUT) 0;
 
-	bool b = UnityWorldViewFrustumCull(IN[0].position, IN[1].position, IN[2].position, 2.0);
+	// Offset patches based on terrain's pivot position for proper view frustum cull
+	bool b = UnityWorldViewFrustumCull(IN[0].position + unity_ObjectToWorld._m03_m13_m23, IN[1].position + unity_ObjectToWorld._m03_m13_m23, IN[2].position + unity_ObjectToWorld._m03_m13_m23, 2.0);
 	
 	if(IN[0].discardFlag || b){
 		return;
@@ -78,6 +79,10 @@ void geometry_shader(triangle DS_OUTPUT IN[3], inout TriangleStream<GS_OUTPUT> t
 
 	// Center of triangle
 	float4 sum = IN[0].position + IN[1].position + IN[2].position;
+
+	// Offset patches based on terrain's pivot position for proper vertex and shadow locations
+	sum += float4(unity_ObjectToWorld._m03_m13_m23, 0) * 3;
+
 	float4 center = sum / 3.0f;
 
 	// Distance to Camera
